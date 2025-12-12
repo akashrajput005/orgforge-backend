@@ -1,16 +1,21 @@
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from passlib.hash import bcrypt
+from passlib.context import CryptContext
 
 from app.core.config import settings
 
+pwd_context = CryptContext(
+    schemes=["bcrypt_sha256"],
+    deprecated="auto"
+)
+
 
 def hash_password(password: str) -> str:
-    return bcrypt.hash(password)
+    return pwd_context.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bcrypt.verify(plain_password, hashed_password)
+    return pwd_context.verify(plain_password, hashed_password)
 
 
 def create_access_token(data: dict) -> str:
@@ -26,11 +31,10 @@ def create_access_token(data: dict) -> str:
 
 def decode_access_token(token: str) -> dict:
     try:
-        payload = jwt.decode(
+        return jwt.decode(
             token,
             settings.jwt_secret,
             algorithms=[settings.jwt_algo]
         )
-        return payload
     except JWTError:
         raise
