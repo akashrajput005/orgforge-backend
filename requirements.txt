@@ -3,6 +3,7 @@ uvicorn[standard]
 motor
 pydantic
 pydantic-settings
+email-validator
 python-jose
 passlib[bcrypt]
 python-dotenv
