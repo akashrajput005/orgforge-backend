@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -8,9 +8,6 @@ class Settings(BaseSettings):
     jwt_secret: str
     jwt_algo: str = "HS256"
     jwt_exp_seconds: int = 3600
-
-    app_host: str = "0.0.0.0"
-    app_port: int = 8000
 
     class Config:
         env_file = ".env"
